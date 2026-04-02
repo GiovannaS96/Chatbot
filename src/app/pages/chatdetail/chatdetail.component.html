@@ -10,6 +10,9 @@
 
         <div class="msg" [ngClass]="{'sx': chat.extIdUtenteDestinatario!=1, 'dx': chat.extIdUtenteDestinatario==1}">
             {{chat.messaggio}}
+            @if (chat.imageUser){
+            <img [src]="chat.imageUser" alt="Anteprima" />
+            }
             <div>
                 {{gf.covertDate(chat.dataInvio)}}
                 <!-- La classe originaria era fa-solid fa-check, entrambe davano conflitto, quindi abbiamo messo in class la classe padre e le classi figlio in ngclass -->
@@ -24,6 +27,8 @@
             <!-- al keydown si intende a qualsiasi inserimento lettere, quindi precisiamo il tasto enter  -->
             <textarea placeholder="Scrivi un messaggio ..." formControlName="messaggioChat"
                 (keydown.enter)="onEnter($event)"></textarea>
+                <i class="fa-solid fa-image"></i>
+                <input type="file" accept="image/*" (change)="onImageSelected($event)">
             <button type="submit">Invio</button>
         </form>
     </div>

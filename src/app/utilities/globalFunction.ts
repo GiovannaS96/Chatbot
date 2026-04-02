@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import Swal from 'sweetalert2';
 import { FormGroup } from '@angular/forms';
+import { ChatdetailComponent } from "../pages/chatdetail/chatdetail.component";
 
 @Injectable({ providedIn: 'root' })
 export class GlobalFunction {
@@ -68,6 +69,8 @@ export class GlobalFunction {
 
 
     }
-
-
+convertImgUrl(img: File): string | null{
+    if (!img) return null;
+    return URL.createObjectURL(img);
+    }
 }

@@ -3,7 +3,6 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChatInfo } from '../../interfaces/chatInfoInterface';
 import { GlobalFunction } from '../../utilities/globalFunction';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-chatdetail',
@@ -18,48 +17,57 @@ export class ChatdetailComponent {
       flagLettura: 1,
       dataInvio: 1711975200000,
       extIdUtenteDestinatario: 1,
-      extIdUtenteMittente: 2
+      extIdUtenteMittente: 2,
+      imageUser: null
     },
     {
       messaggio: 'ciao, come stai?',
       flagLettura: 1,
       dataInvio: 1711975200000,
       extIdUtenteDestinatario: 2,
-      extIdUtenteMittente: 1
+      extIdUtenteMittente: 1,
+      imageUser: null
     },
     {
       messaggio: 'Tutto bene te?',
       flagLettura: 1,
       dataInvio: 1711975200000,
       extIdUtenteDestinatario: 1,
-      extIdUtenteMittente: 2
+      extIdUtenteMittente: 2,
+      imageUser: null
     },
     {
       messaggio: 'Alla grande!',
       flagLettura: 1,
       dataInvio: 1711975200000,
       extIdUtenteDestinatario: 2,
-      extIdUtenteMittente: 1
+      extIdUtenteMittente: 1,
+      imageUser: null
     },
     {
       messaggio: 'Io ora vado, ciao!',
       flagLettura: 1,
       dataInvio: 1711975200000,
       extIdUtenteDestinatario: 2,
-      extIdUtenteMittente: 1
+      extIdUtenteMittente: 1,
+      imageUser: null
     },
     {
       messaggio: 'Ciaooo',
       flagLettura: 0,
       dataInvio: 1711975200000,
       extIdUtenteDestinatario: 1,
-      extIdUtenteMittente: 2
+      extIdUtenteMittente: 2,
+      imageUser: null
     }
   ];
 
+imageToUpload!: File | null
+URLImg!: string | null
+
   //Inizializzo la variabile Form Group, il ! per non instanziarla obbligatoriamente
   formChat!: FormGroup
-
+//variabile nome utente presa dal link/route
   nome!: string
   //usiamo il costruttore perchè le classi come global function vanno istanziate per usarne i metodi, se non lo faccio non posso usarli
   constructor(protected gf: GlobalFunction, private fb: FormBuilder, private route: ActivatedRoute) { //instanziamo anche activatedRoute per accedere ai parametri dinamici delle route
@@ -98,18 +106,22 @@ export class ChatdetailComponent {
   inviaMessaggio () {
     if (this.formChat.valid) {
       let testo = this.formChat.get('messaggioChat')?.value;
+      let immagine= this.URLImg
 
       const nuovoMessaggio: ChatInfo = {
         messaggio: testo,
         flagLettura: 0,
         dataInvio: Date.now(),
         extIdUtenteDestinatario: 1,
-        extIdUtenteMittente: 2
+        extIdUtenteMittente: 2,
+        imageUser: immagine
       };
-
       this.chatsInfo.push(nuovoMessaggio);
 
+      console.log(this.chatsInfo);
+
       this.formChat.reset();
+      this.URLImg=null;
     } else {
       //sta richiamando la funzione globale
       this.gf.validateFormGroup(this.formChat);
@@ -122,5 +134,13 @@ export class ChatdetailComponent {
     if (!event.shiftKey) { 
     }
   }
+
+onImageSelected(event: any) {
+  const imageSelected = (event.target as HTMLInputElement).files?.[0];
+  if (imageSelected) {
+    this.imageToUpload = imageSelected;                    
+    this.URLImg = this.gf.convertImgUrl(this.imageToUpload); 
+  }
+}
 
 }

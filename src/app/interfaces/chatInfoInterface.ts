@@ -3,5 +3,6 @@ export interface ChatInfo{
       flagLettura: number,
       dataInvio: number,
       extIdUtenteDestinatario: number,
-      extIdUtenteMittente: number
+      extIdUtenteMittente: number,
+      imageUser?: string | null
 }
