@@ -1,0 +1,30 @@
+<div class="chatcontainer">
+    <div class="header">{{nome}}</div>
+    <div class="chat-body">
+        @for (chat of chatsInfo; track $index) {
+        <!-- @if (chat.extIdUtenteDestinatario==1){
+            <div class="msg sx">{{chat.messaggio}} <div>{{gf.covertDate(chat.dataInvio)}} {{chat.flagLettura}}</div></div>}
+        @else {
+            <div class="msg dx">{{chat.messaggio}} <div>{{gf.covertDate(chat.dataInvio)}} {{chat.flagLettura}}</div></div>
+        } -->
+
+        <div class="msg" [ngClass]="{'sx': chat.extIdUtenteDestinatario!=1, 'dx': chat.extIdUtenteDestinatario==1}">
+            {{chat.messaggio}}
+            <div>
+                {{gf.covertDate(chat.dataInvio)}}
+                <!-- La classe originaria era fa-solid fa-check, entrambe davano conflitto, quindi abbiamo messo in class la classe padre e le classi figlio in ngclass -->
+                <i class="fa-solid"
+                    [ngClass]="{'fa-check': chat.flagLettura==0, 'fa-check-double': chat.flagLettura==1 }"></i>
+            </div>
+        </div>
+        }
+    </div>
+    <div class="p-3">
+        <form [formGroup]="formChat" (ngSubmit)="inviaMessaggio()" class="d-flex">
+            <!-- al keydown si intende a qualsiasi inserimento lettere, quindi precisiamo il tasto enter  -->
+            <textarea placeholder="Scrivi un messaggio ..." formControlName="messaggioChat"
+                (keydown.enter)="onEnter($event)"></textarea>
+            <button type="submit">Invio</button>
+        </form>
+    </div>
+</div>

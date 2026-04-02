@@ -1,0 +1,35 @@
+
+<div class="container">
+	<table>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Nick</th>
+				<th>Last Message</th>
+				<th>Date</th>
+				<th>State</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (chat of chats; track $index) {
+			<tr>
+				<td>{{chat.idChat}}</td>
+				<td>{{chat.extIdUtenteMittente}}</td>
+				<td>{{chat.ultimoMessaggio}}</td>
+				<td>{{gf.covertDate(chat.dataInvio)}}</td>
+				<td>{{chat.flagLettura}}</td>
+				<td>
+					<a [routerLink]="['dettaglio-chat/', chat.idChat, chat.nomeUtente]" type="button" class="btn btn-info" style=margin:10px>
+						<i class="fa-solid fa-comment-dots" style=color:#ffffff></i>
+					</a>
+					<button (click)="deleteChatArray($index)" type="button" class="btn btn-danger">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+				</td>
+			</tr>
+			}
+
+		</tbody>
+	</table>
+</div>
